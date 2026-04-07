@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FormLayout from "../../component/layouts/FormLayout";
-import Login from "../../component/auth_component/Login";
-import Register from "../../component/auth_component/Register";
+import Login from "../../component/form/Login";
+import Register from "../../component/form/Register";
 
 const Auth = () => {
   const [activeTab, setActiveTab] = useState("login");
