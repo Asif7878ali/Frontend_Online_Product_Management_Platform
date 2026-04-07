@@ -1,5 +1,5 @@
 const endPoint = {
-  signin: "/api/route/auth/register",
+  signin: "api/register",
 };
 
 export default endPoint;
