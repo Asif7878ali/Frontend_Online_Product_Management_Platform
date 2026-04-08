@@ -27,7 +27,10 @@ const TableProduct = ({ item, onViewClick, onEditClick, onDeleteClick }) => {
       </td>
 
       <td className="px-6 py-4 font-medium text-brand-text whitespace-nowrap">
-        {formatIndianAmount(item?.stock) || "not available"}
+        {item?.stock || "not available"}
+      </td>
+      <td className="px-6 py-4 font-medium text-brand-text capitalize whitespace-nowrap">
+        {item?.category?.name || "not available"}
       </td>
 
       <td className="px-6 py-4 capitalize text-slate-500 text-sm font-normal">

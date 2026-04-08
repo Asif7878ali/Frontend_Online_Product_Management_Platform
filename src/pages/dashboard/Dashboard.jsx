@@ -7,16 +7,22 @@ import configCenter from "../../lib/config";
 import endPoint from "../../lib/endpoint";
 import axios from "axios";
 import useSearchHook from "../../hooks/useSearchHook";
+import ViewProductModal from "../../component/pages_related_component/ViewProductModal";
+import DeleteProductModal from "../../component/pages_related_component/DeleteProductModal";
+import EditProductModal from "../../component/pages_related_component/EditProductModal";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [modals, setModals] = useState({
     Add: false,
     Delete: false,
     Edit: false,
+    View: false,
   });
-  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsloading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [activeFilter, setActiveFilter] = useState("All");
   const { searchTerm, debouncedSearchTerm, handleSearchChange } =
     useSearchHook();
 
@@ -24,18 +30,53 @@ const Dashboard = () => {
     setCurrentPage(page);
   }
 
+  function handleFilterChange(filter) {
+    setActiveFilter(filter);
+    setCurrentPage(1);
+  }
+
+  function viewModalFunc(item) {
+    setSelectedProduct(item);
+    setModals((pre) => ({
+      ...pre,
+      View: true,
+    }));
+  }
+
+  function deleteModalFunc(item) {
+    setSelectedProduct(item);
+    setModals((pre) => ({
+      ...pre,
+      Delete: true,
+    }));
+  }
+
+  function editModalFunc(item) {
+    setSelectedProduct(item);
+    setModals((pre) => ({
+      ...pre,
+      Edit: true,
+    }));
+  }
+
   useEffect(() => {
-    const fetchProducts = async (page = 1) => {
+    const fetchProducts = async () => {
       try {
         setIsloading(true);
-
-        const responce = await axios.get(
-          `${configCenter.urls.base}${endPoint.get_products}?page=${page}`,
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const response = await axios.get(
+          `${configCenter.urls.base}${endPoint.get_products}`,
+          {
+            params: {
+              page: currentPage,
+              search: debouncedSearchTerm,
+              filter: activeFilter,
+            },
+          },
         );
 
-        console.log(responce.data);
-        if (responce.data?.status) {
-          setProducts(responce.data);
+        if (response.data?.status) {
+          setProducts(response.data);
         }
       } catch (error) {
         console.log(error);
@@ -45,7 +86,11 @@ const Dashboard = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [currentPage, debouncedSearchTerm, activeFilter]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchTerm]);
 
   return (
     <>
@@ -69,14 +114,23 @@ const Dashboard = () => {
             </Button>
           }
           tableData={products?.data || []}
+          currentPage={currentPage}
+          itemsPerPage={8}
+          //Pagination
           totalItems={products?.totalItems || 1}
           totalPages={products?.totalPages || 1}
-          currentPage={currentPage}
-          itemsPerPage={5}
-          searchTerm={searchTerm}
           onPageChange={handlePageChange}
-          // onFilterChange={handleFilterChange}
+          //Search
+          searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
+          // filter options
+          filterOptions={["All", "Electronics", "Fashion"]}
+          activeFilter={activeFilter}
+          onFilterChange={handleFilterChange}
+          // Pass Handler Funtion
+          onViewClick={viewModalFunc}
+          onDeleteClick={deleteModalFunc}
+          onEditClick={editModalFunc}
         />
       </div>
 
@@ -87,6 +141,42 @@ const Dashboard = () => {
             ...prev,
             Add: false,
           }));
+        }}
+      />
+
+      <ViewProductModal
+        openModal={modals.View}
+        selectedProduct={selectedProduct}
+        onCloseModal={() => {
+          setModals((prev) => ({
+            ...prev,
+            View: false,
+          }));
+          setSelectedProduct(null);
+        }}
+      />
+
+      <DeleteProductModal
+        openModal={modals.Delete}
+        selectedProduct={selectedProduct}
+        onCloseModal={() => {
+          setModals((prev) => ({
+            ...prev,
+            Delete: false,
+          }));
+          setSelectedProduct(null);
+        }}
+      />
+
+      <EditProductModal
+        openModal={modals.Edit}
+        selectedProduct={selectedProduct}
+        onCloseModal={() => {
+          setModals((prev) => ({
+            ...prev,
+            Edit: false,
+          }));
+          setSelectedProduct(null);
         }}
       />
     </>

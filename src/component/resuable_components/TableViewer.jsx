@@ -29,6 +29,10 @@ const TableViewer = ({
   placeholder = "Search",
   showDateFilters = false,
   showDateFiltersDouble = false,
+  // Handler Function
+  onDeleteClick,
+  onEditClick,
+  onViewClick,
 }) => {
   // Validate the main configuration prop
   if (
@@ -167,7 +171,13 @@ const TableViewer = ({
                     key={item.id || index}
                     className="bg-white border-b hover:bg-gray-50"
                   >
-                    {renderTableBody({ key, item })}
+                    {renderTableBody({
+                      key,
+                      item,
+                      onEditClick,
+                      onDeleteClick,
+                      onViewClick,
+                    })}
                   </tr>
                 ))
               )}

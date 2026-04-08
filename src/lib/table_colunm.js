@@ -6,6 +6,7 @@ export const Column = {
       "Description",
       "Price",
       "Stock",
+      "Category",
       "Created_at",
       "View",
       "Action",
