@@ -1,4 +1,4 @@
-import CreateProduct from "../component/table_rows/create_product";
+import TableProduct from "../component/table_rows/table_product";
 
 function renderTableBody({
   key,
@@ -8,9 +8,9 @@ function renderTableBody({
   onViewClick,
 }) {
   switch (key) {
-    case "sms_template":
+    case "table_product":
       return (
-        <CreateProduct
+        <TableProduct
           item={item}
           onViewClick={onViewClick}
           onEditClick={onEditClick}

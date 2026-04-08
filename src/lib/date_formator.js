@@ -79,3 +79,10 @@ export const dateFormater = (dateInput, formatType = "DD Mon YYYY") => {
       return date.toDateString();
   }
 };
+
+export function formatIndianAmount(amount) {
+  return Number(amount || 0).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}

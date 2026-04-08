@@ -1,97 +1,93 @@
 import { useState, useEffect } from "react";
-import { Table, Tag, Space, notification } from "antd";
-import { useNavigate } from "react-router-dom";
-import CreateProductModal from "../../component/dashboard/CreateProductModal";
+import CreateProductModal from "../../component/pages_related_component/CreateProductModal";
 import { Button } from "../../component/form_components/Buttons";
 import TableViewer from "../../component/resuable_components/TableViewer";
 import { Column } from "../../lib/table_colunm";
+import configCenter from "../../lib/config";
+import endPoint from "../../lib/endpoint";
+import axios from "axios";
+import useSearchHook from "../../hooks/useSearchHook";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const navigate = useNavigate();
+  const [modals, setModals] = useState({
+    Add: false,
+    Delete: false,
+    Edit: false,
+  });
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsloading] = useState(false);
+  const { searchTerm, debouncedSearchTerm, handleSearchChange } =
+    useSearchHook();
+
+  function handlePageChange(page) {
+    setCurrentPage(page);
+  }
 
   useEffect(() => {
-    // Mock initial data
-    setProducts([
-      {
-        id: "1",
-        name: "Premium Wireless Headphones",
-        description: "High quality noise-canceling wireless headphones.",
-        price: 299.99,
-        stock: 45,
-        status: "active",
-        image: "headphones.jpg",
-      },
-      {
-        id: "2",
-        name: "Mechanical Keyboard",
-        description: "RGB mechanical keyboard with tactile switches.",
-        price: 129.5,
-        stock: 0,
-        status: "out_of_stock",
-        image: "keyboard.jpg",
-      },
-      {
-        id: "3",
-        name: "Ergonomic Mouse",
-        description: "Vertical ergonomic mouse for productive workflows.",
-        price: 59.99,
-        stock: 120,
-        status: "active",
-        image: "mouse.jpg",
-      },
-    ]);
+    const fetchProducts = async (page = 1) => {
+      try {
+        setIsloading(true);
+
+        const responce = await axios.get(
+          `${configCenter.urls.base}${endPoint.get_products}?page=${page}`,
+        );
+
+        console.log(responce.data);
+        if (responce.data?.status) {
+          setProducts(responce.data);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsloading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/auth");
-  };
-
-  const handleAddProduct = (newProduct) => {
-    setProducts([newProduct, ...products]);
-  };
-
-  const handleDelete = (id) => {
-    setProducts(products.filter((p) => p.id !== id));
-    notification.success({ message: "Product deleted" });
-  };
 
   return (
     <>
-      {/* Main Content */}
       <div className="w-full flex flex-col gap-5 p-6">
         <TableViewer
           title="Product Inventory"
           isLoading={isLoading}
-          tableColumnsConfig={Column?.create_product}
+          tableColumnsConfig={Column?.table_product}
           Btn={
             <Button
               variant="outline"
               className="text-red-500"
-              onClick={() => setIsModalVisible(true)}
+              onClick={() => {
+                setModals((pre) => ({
+                  ...pre,
+                  Add: true,
+                }));
+              }}
             >
               + Add
             </Button>
           }
-          // totalItems={usersData?.total || 1}
-          // totalPages={usersData?.totalPages || 1}
-          // currentPage={currentPage}
+          tableData={products?.data || []}
+          totalItems={products?.totalItems || 1}
+          totalPages={products?.totalPages || 1}
+          currentPage={currentPage}
           itemsPerPage={5}
-          // searchTerm={searchTerm}
-          // onPageChange={handlePageChange}
+          searchTerm={searchTerm}
+          onPageChange={handlePageChange}
           // onFilterChange={handleFilterChange}
-          // onSearchChange={handleSearchChange}
+          onSearchChange={handleSearchChange}
         />
       </div>
 
       <CreateProductModal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        onSuccess={handleAddProduct}
+        openModal={modals.Add}
+        onCloseModal={() => {
+          setModals((prev) => ({
+            ...prev,
+            Add: false,
+          }));
+        }}
       />
     </>
   );

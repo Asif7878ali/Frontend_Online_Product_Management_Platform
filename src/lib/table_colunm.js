@@ -1,6 +1,14 @@
 export const Column = {
-  create_product: {
-    key: "create_product",
-    columns: ["Image", "Name", "Price", "Status", "Created_at", "Action"],
+  table_product: {
+    key: "table_product",
+    columns: [
+      "Image",
+      "Description",
+      "Price",
+      "Stock",
+      "Created_at",
+      "View",
+      "Action",
+    ],
   },
 };
