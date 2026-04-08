@@ -67,3 +67,28 @@ export const NavigationButton = ({
     </button>
   );
 };
+
+export function RedRectangleButton({
+  name,
+  onClick,
+  className = "",
+  disable = false,
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disable}
+      className={`mt-2 min-h-[40px] min-w-[130px] max-h-[58px] 
+        rounded-md border border-rose-500 font-normal transition duration-300 ease-in-out
+        ${
+          disable
+            ? "cursor-not-allowed opacity-60 bg-gray-300 text-gray-600 border-gray-400"
+            : "cursor-pointer hover:bg-gray-50"
+        } 
+        ${className}`}
+    >
+      {name}
+    </button>
+  );
+}

@@ -7,6 +7,7 @@ import axios from "axios";
 import configCenter from "../../lib/config";
 import endPoint from "../../lib/endpoint";
 import { notification } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -76,6 +78,7 @@ const Login = () => {
           password: "",
         });
         setErrors({});
+        navigate("/dashboard");
       } catch (error) {
         notification.error({
           message: "Error",
