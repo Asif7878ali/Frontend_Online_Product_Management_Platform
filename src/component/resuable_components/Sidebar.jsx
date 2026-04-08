@@ -1,61 +1,22 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import SideBarItems from "../../lib/sidebar_items.js";
 import Icons from "../../utills/Icons.jsx";
 import { SmallModal } from "./Modals.jsx";
 import { RedRectangleButton } from "../form_components/Buttons.jsx";
-
-/* ─── Inline SVG icons (no extra dep needed) ─── */
-const CheckIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="w-[18px] h-[18px]"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M9 11l3 3L22 4" />
-    <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
-  </svg>
-);
-
-const ChevronDown = ({ open }) => (
-  <svg
-    viewBox="0 0 24 24"
-    className={`w-3 h-3 transition-transform duration-250 ${open ? "rotate-180" : "rotate-0"}`}
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
-);
-
-const LogoutIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
-    <polyline points="16 17 21 12 16 7" />
-    <line x1="21" y1="12" x2="9" y2="12" />
-  </svg>
-);
+import { notification } from "antd";
+import configCenter from "../../lib/config.js";
+import endPoint from "../../lib/endpoint.js";
+import axios from "axios";
 
 const SideBar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [clickedItemIndex, setClickedItemIndex] = useState(null);
   const [clickedSubItemIndex, setClickedSubItemIndex] = useState(null);
   const [modal, setModal] = useState(false);
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleMenuClick = (index) => {
     setClickedItemIndex(clickedItemIndex === index ? null : index);
@@ -69,33 +30,68 @@ const SideBar = () => {
     setClickedItemIndex(itemIndex);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.reload();
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      const responce = await axios.post(
+        `${configCenter.urls.base}${endPoint.logout}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (responce?.data?.status) {
+        notification.success({
+          message: "Success",
+          description: responce?.data?.message || "Logout Successfully",
+        });
+        localStorage.clear();
+        setToken(null);
+        navigate("/");
+      }
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Internal Server Error",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
 
   return (
     <>
       <aside
-        className={`h-screen ${isExpanded ? "w-60" : "w-[72px]"} bg-[#1a0a0f]
+        className={`h-screen ${isExpanded ? "w-60" : "w-[72px]"} bg-[#FF3E57]
           flex flex-col pt-0 rounded-r-2xl sticky top-0 z-50
           transition-all duration-350 ease-[cubic-bezier(.4,0,.2,1)]
-          border-r border-[rgba(255,62,87,0.15)] shadow-2xl overflow-hidden`}
+          border-r border-[rgba(0,0,0,0.08)] shadow-2xl overflow-hidden`}
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
       >
         {/* ── Logo ── */}
         <div className="flex items-center gap-3 px-4 h-[72px] flex-shrink-0">
-          {/* Icon mark */}
+          {/* White icon mark — visible on red bg */}
           <div
             className="w-9 h-9 rounded-[10px] flex items-center justify-center flex-shrink-0
-            bg-gradient-to-br from-[#ff3e57] to-[#ff6a7d]
-            shadow-[0_4px_14px_rgba(255,62,87,0.45)] text-white"
+            bg-white shadow-[0_2px_8px_rgba(0,0,0,0.15)] text-[#FF3E57]"
           >
-            <CheckIcon />
+            <Icons.Checked className="size-4 stroke-2" />
           </div>
 
-          {/* Wordmark — slides in on expand */}
+          {/* Wordmark */}
           <div
             className={`flex flex-col leading-none transition-all duration-300 overflow-hidden
             ${isExpanded ? "opacity-100 translate-x-0 w-auto" : "opacity-0 -translate-x-2 w-0"}`}
@@ -104,9 +100,9 @@ const SideBar = () => {
               className="text-[13px] font-bold text-white tracking-wide whitespace-nowrap"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              ProductMgmt
+              ProductMGMT
             </span>
-            <span className="text-[10px] font-semibold text-[#ff6a7d] tracking-[0.06em] uppercase mt-0.5 whitespace-nowrap">
+            <span className="text-[10px] font-semibold text-white/70 tracking-[0.06em] uppercase mt-0.5 whitespace-nowrap">
               Dashboard
             </span>
           </div>
@@ -114,7 +110,7 @@ const SideBar = () => {
 
         {/* Divider */}
         <div
-          className={`h-px bg-white/[0.07] mx-auto mb-3 flex-shrink-0 transition-all duration-350
+          className={`h-px bg-white/25 mx-auto mb-3 flex-shrink-0 transition-all duration-350
           ${isExpanded ? "w-48" : "w-8"}`}
         />
 
@@ -129,38 +125,27 @@ const SideBar = () => {
                     onClick={() => handleMenuClick(index)}
                     className={`flex items-center gap-[10px] px-[10px] py-[9px] rounded-[10px] cursor-pointer
                       relative transition-all duration-200
-                      ${
-                        isActive
-                          ? "bg-[rgba(255,62,87,0.2)]"
-                          : "hover:bg-[rgba(255,62,87,0.1)]"
-                      }`}
+                      ${isActive ? "bg-[rgba(0,0,0,0.18)]" : "hover:bg-[rgba(0,0,0,0.1)]"}`}
                   >
                     {/* Active bar */}
                     {isActive && (
                       <span
                         className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5
-                        bg-[#ff3e57] rounded-r-[3px]"
+                        bg-white rounded-r-[3px]"
                       />
                     )}
 
                     {/* Icon pill */}
                     <div
-                      className={`w-9 h-9 rounded-[8px] flex items-center justify-center flex-shrink-0
-                      transition-all duration-200
-                      ${
-                        isActive
-                          ? "bg-[rgba(255,62,87,0.3)] text-[#ff6a7d]"
-                          : "bg-white/[0.06] text-white/55"
-                      }`}
+                      className={`size-5 rounded-[8px] flex items-center justify-center flex-shrink-0 transition-all duration-200 ${isActive ? "bg-white text-[#FF3E57]" : "bg-white/20 text-white"}`}
                     >
-                      {/* Re-use your existing Icons here, e.g.: */}
-                      <Icons.Checked className="w-4 h-4" />
+                      {isActive && <Icons.Checked className="size-3" />}
                     </div>
 
                     {/* Label */}
                     <span
                       className={`flex-1 text-[13px] whitespace-nowrap transition-all duration-280
-                      ${isActive ? "text-white font-semibold" : "text-white/70 font-medium"}
+                      ${isActive ? "text-white font-semibold" : "text-white/85 font-medium"}
                       ${isExpanded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1.5"}`}
                     >
                       {item.text}
@@ -168,8 +153,11 @@ const SideBar = () => {
 
                     {/* Chevron for sub-items */}
                     {isExpanded && item?.subItems && (
-                      <span className="text-white/30 flex-shrink-0">
-                        <ChevronDown open={isActive} />
+                      <span className="text-white/60 flex-shrink-0">
+                        <Icons.CheronDown
+                          className={`w-3 h-3 transition-transform duration-250
+                          ${isActive ? "rotate-180" : "rotate-0"}`}
+                        />
                       </span>
                     )}
                   </div>
@@ -191,14 +179,14 @@ const SideBar = () => {
                               text-[12px] font-medium relative transition-all duration-150 cursor-pointer
                               ${
                                 isSubActive
-                                  ? "text-[#ff6a7d] bg-[rgba(255,62,87,0.1)]"
-                                  : "text-white/50 hover:text-white/80 hover:bg-[rgba(255,62,87,0.08)]"
+                                  ? "text-white bg-[rgba(0,0,0,0.15)] font-semibold"
+                                  : "text-white/70 hover:text-white hover:bg-[rgba(0,0,0,0.08)]"
                               }`}
                           >
                             <span
                               className={`absolute left-[26px] top-1/2 -translate-y-1/2 w-[5px] h-[5px]
                               rounded-full transition-colors
-                              ${isSubActive ? "bg-[#ff3e57]" : "bg-[rgba(255,62,87,0.4)]"}`}
+                              ${isSubActive ? "bg-white" : "bg-white/40"}`}
                             />
                             {subitem.text}
                           </Link>
@@ -213,20 +201,20 @@ const SideBar = () => {
         </ul>
 
         {/* ── Logout ── */}
-        <div className="flex-shrink-0 px-[10px] py-3 border-t border-white/[0.06]">
+        <div className="flex-shrink-0 px-[10px] py-3 border-t border-white/20">
           <div
             className="flex items-center gap-[10px] px-[10px] py-[9px] rounded-[10px]
-              cursor-pointer transition-all duration-200 hover:bg-[rgba(255,62,87,0.1)]"
+              cursor-pointer transition-all duration-200 hover:bg-[rgba(0,0,0,0.1)]"
             onClick={() => setModal(true)}
           >
             <div
               className="w-9 h-9 rounded-[8px] flex items-center justify-center flex-shrink-0
-              bg-[rgba(255,62,87,0.12)] text-[#ff6a7d]"
+              bg-white/20 text-white"
             >
-              <LogoutIcon />
+              <Icons.Logout className="size-4" />
             </div>
             <span
-              className={`text-[13px] font-medium text-white/55 whitespace-nowrap
+              className={`text-[13px] font-medium text-white/80 whitespace-nowrap
               transition-all duration-280
               ${isExpanded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1.5"}`}
             >
@@ -253,12 +241,14 @@ const SideBar = () => {
               onClick={() => setModal(false)}
             />
             <RedRectangleButton
-              name="Logout"
-              className="bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-              onClick={() => {
-                handleLogout();
-                setModal(false);
-              }}
+              name={loading ? "Logging out..." : "Logout"}
+              disabled={loading}
+              className={` ${
+                loading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
+              }`}
+              onClick={handleLogout}
             />
           </div>
         </div>

@@ -8,6 +8,7 @@ import configCenter from "../../lib/config";
 import endPoint from "../../lib/endpoint";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
+import Password from "../form_components/Password";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -107,8 +108,7 @@ const Login = () => {
               error={errors?.email}
               required
             />
-            <Input
-              type="password"
+            <Password
               label="Passowrd"
               name="password"
               value={formData.password}

@@ -4,6 +4,10 @@ const SideBarItems = [
     text: "Products",
     link: "/dashboard",
   },
+  {
+    text: "Order",
+    link: "/dashboard",
+  },
 ];
 
 export default SideBarItems;

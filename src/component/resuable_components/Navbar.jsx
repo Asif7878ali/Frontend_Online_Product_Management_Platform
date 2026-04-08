@@ -5,6 +5,7 @@ import Icons from "../../utills/Icons";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [token, setToken] = useState(null);
+  const [user, setUser] = useState({});
 
   function toggleMenu() {
     setMenuOpen(!menuOpen);
@@ -12,13 +13,38 @@ const Navbar = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
+    const user = localStorage.getItem("user");
+
+    if (storedToken) {
+      setToken(storedToken);
+    }
+
+    if (user) {
+      setUser(JSON.parse(user));
+    }
   }, []);
 
   return (
     <>
       {token ? (
-        <div>My name</div>
+        <div className="w-full bg-white shadow-md">
+          <div className="flex items-center justify-between px-10 py-3">
+            <nav className="flex items-center">
+              <span className="text-neutral-500">Dashboard</span>
+            </nav>
+
+            <div className="flex items-center gap-x-4">
+              <div className="text-end">
+                <p className="text-gray-500 text-sm font-normal leading-none">
+                  Hello User
+                </p>
+                <h2 className="text-zinc-800 text-base font-medium capitalize leading-none mt-1">
+                  {user?.name}
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
         <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-100 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
