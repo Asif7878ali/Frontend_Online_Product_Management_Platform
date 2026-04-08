@@ -12,7 +12,7 @@ const Home = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 tracking-tight mb-8">
               Manage products from <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-600 to-purple-600">
+              <span className="text-transparent bg-clip-text textRose">
                 idea to execution
               </span>
             </h1>
@@ -24,9 +24,10 @@ const Home = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button className="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-semibold text-lg transition-all shadow-lg shadow-indigo-200">
+              <button className="w-full sm:w-auto px-8 py-4 bg-rose-600 text-white hover:bg-rose-700 hover:shadow-lg rounded-full font-semibold text-lg transition-all shadow-lg">
                 Start your free trial
               </button>
+
               <button className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 rounded-full font-semibold text-lg transition-all flex items-center justify-center gap-2">
                 <Icons.InfoIcon className="w-5 h-5" />
                 Book a demo
@@ -43,7 +44,7 @@ const Home = () => {
         <section className="py-10 bg-white" id="features">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-indigo-600 font-semibold tracking-wide uppercase mb-3">
+              <h2 className="textRose font-semibold tracking-wide uppercase mb-3">
                 Core Features
               </h2>
               <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
@@ -145,7 +146,7 @@ const Home = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-indigo-600 py-10">
+        <section className="bg-rose-600 py-10">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
               Ready to build better products?
@@ -155,7 +156,7 @@ const Home = () => {
               to launch features faster and delight their users.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-white text-indigo-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 transition-colors shadow-lg">
+              <button className="bg-white textRose px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 transition-colors shadow-lg">
                 Get Started for Free
               </button>
               <button className="bg-transparent border border-indigo-300 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-700 transition-colors">

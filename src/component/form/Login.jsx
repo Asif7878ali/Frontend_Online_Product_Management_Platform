@@ -1,60 +1,127 @@
 import { useState } from "react";
 import Input from "../form_components/Input";
 import { Button } from "../form_components/Buttons";
+import Loader from "../resuable_components/Loader";
+import { logInValidation } from "../../lib/validation";
+import axios from "axios";
+import configCenter from "../../lib/config";
+import endPoint from "../../lib/endpoint";
+import { notification } from "antd";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
-    if (name === "name") {
-      const numericValue = value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-      if (numericValue.length <= 8) {
-        setFormData((prev) => ({ ...prev, [name]: numericValue }));
-      }
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const { errors, isvalid } = logInValidation(formData);
+    setErrors(errors);
+
+    if (!isvalid) {
+      return;
+    }
+
     const payload = {
       email: formData.email,
       password: formData.password,
     };
     console.log("data", payload);
+
+    if (isvalid == true) {
+      setLoading(true);
+
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+
+        const response = await axios.post(
+          `${configCenter.urls.base}${endPoint.login}`,
+          payload,
+        );
+
+        const { data } = response;
+
+        if (!data?.status) {
+          notification.error({
+            message: "Error",
+            description: data.message || "Something Went Wrong",
+          });
+          return;
+        }
+
+        notification.success({
+          message: "Success",
+          description: data.message || "Login SuccesFully",
+        });
+
+        // store data in local storage
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+
+        setFormData({
+          email: "",
+          password: "",
+        });
+        setErrors({});
+      } catch (error) {
+        notification.error({
+          message: "Error",
+          description: "Internal Server Error",
+        });
+        console.error("Signin error:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
   return (
-    <form onSubmit={handleSubmit} id="LoginForm">
-      <div className="flex flex-col gap-4">
-        <Input
-          type="email"
-          label="E-mail"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Enter Your E-mail"
-          required
-        />
-        <Input
-          type="password"
-          label="Passowrd"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Enter Password"
-          required
-        />
-        <Button className="w-full cursor-pointer" variant="primary">
-          Login
-        </Button>
-        <p className="text-sm text-center">Forget Password?</p>
-      </div>
-    </form>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <form onSubmit={handleSubmit} id="LoginForm">
+          <div className="flex flex-col gap-4">
+            <Input
+              type="email"
+              label="E-mail"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter Your E-mail"
+              error={errors?.email}
+              required
+            />
+            <Input
+              type="password"
+              label="Passowrd"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter Password"
+              error={errors?.password}
+              required
+            />
+            <Button className="w-full cursor-pointer" variant="primary">
+              Login
+            </Button>
+            <p className="text-sm text-center">Forget Password?</p>
+          </div>
+        </form>
+      )}
+    </>
   );
 };
 

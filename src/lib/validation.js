@@ -33,3 +33,23 @@ export function signInValidation(formData) {
   const isvalid = Object.keys(errors).length === 0;
   return { errors, isvalid };
 }
+
+export function logInValidation(formData) {
+  const errors = {};
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!formData?.email) {
+    errors.email = "Email is Required";
+  } else if (!emailRegex.test(formData?.email)) {
+    errors.email = "Enter Valid Email";
+  }
+
+  if (!formData?.password) {
+    errors.password = "Password is required";
+  } else if (formData?.password?.length < 6) {
+    errors.password = "Password must be at least 6 characters";
+  }
+
+  const isvalid = Object.keys(errors).length === 0;
+  return { errors, isvalid };
+}

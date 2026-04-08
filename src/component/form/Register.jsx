@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../form_components/Buttons";
 import Input from "../form_components/Input";
 import Password from "../form_components/Password";
@@ -12,7 +11,6 @@ import { notification } from "antd";
 import Loader from "../resuable_components/Loader";
 
 const Register = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,6 +39,10 @@ const Register = () => {
     const { errors, isvalid } = signInValidation(formData);
     setErrors(errors);
 
+    if (!isvalid) {
+      return;
+    }
+
     const collectform = {
       name: formData.name,
       email: formData.email,
@@ -59,19 +61,27 @@ const Register = () => {
 
         const { data } = response;
 
-        if (!data?.success) {
+        if (!data?.status) {
           notification.error({
             message: "Error",
-            description: data.msg || "Something Went Wrong",
+            description: data.message || "Something Went Wrong",
           });
           return;
         }
 
-        sessionStorage.setItem("user", JSON.stringify(data.user));
         notification.success({
           message: "Success",
-          description: data.msg || "Register SuccesFully",
+          description: data.message || "Register SuccesFully",
         });
+
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          c_password: "",
+          checked: false,
+        });
+        setErrors({});
       } catch (error) {
         notification.error({
           message: "Error",
