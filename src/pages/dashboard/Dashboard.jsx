@@ -51,13 +51,6 @@ const Dashboard = () => {
     }));
   }
 
-  function handleDeleteSuccess(id) {
-    setProducts((prev) => ({
-      ...prev,
-      data: prev.data.filter((item) => item.id !== id),
-    }));
-  }
-
   function editModalFunc(item) {
     setSelectedProduct(item);
     setModals((pre) => ({
@@ -173,7 +166,6 @@ const Dashboard = () => {
           }));
           setSelectedProduct(null);
         }}
-        onDeleteSuccess={handleDeleteSuccess}
       />
 
       <EditProductModal

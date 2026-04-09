@@ -7,12 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import Loader from "../resuable_components/Loader";
 
-const DeleteProductModal = ({
-  openModal,
-  selectedProduct,
-  onCloseModal,
-  onDeleteSuccess,
-}) => {
+const DeleteProductModal = ({ openModal, selectedProduct, onCloseModal }) => {
   const [loading, setLoading] = useState(false);
   if (!selectedProduct) return null;
 
@@ -45,8 +40,8 @@ const DeleteProductModal = ({
           description:
             response?.data?.message || "Product deleted successfully",
         });
-        onDeleteSuccess(selectedProduct.id);
         onCloseModal();
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);

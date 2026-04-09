@@ -152,8 +152,8 @@ const CreateProductModal = ({ openModal, onCloseModal }) => {
           image: null,
         });
         setPreview(null);
-
         onCloseModal();
+        window.location.reload();
       }
     } catch (error) {
       notification.error({
