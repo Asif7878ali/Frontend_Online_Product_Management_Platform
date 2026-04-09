@@ -4,6 +4,7 @@ const endPoint = {
   logout: "api/logout",
   get_products: "api/get/products",
   create_product: "api/create/product",
+  update_product: "api/update/product",
   delete_product: "api/delete/product",
 };
 
