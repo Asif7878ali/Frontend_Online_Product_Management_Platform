@@ -46,7 +46,7 @@ const SideBar = () => {
 
       if (responce?.data?.status) {
         notification.success({
-          message: "Success",
+          title: "Success",
           description: responce?.data?.message || "Logout Successfully",
         });
         localStorage.clear();
@@ -55,7 +55,7 @@ const SideBar = () => {
       }
     } catch (error) {
       notification.error({
-        message: "Error",
+        title: "Error",
         description: "Internal Server Error",
       });
     } finally {

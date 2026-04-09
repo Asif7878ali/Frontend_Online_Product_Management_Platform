@@ -59,14 +59,14 @@ const Login = () => {
 
         if (!data?.status) {
           notification.error({
-            message: "Error",
+            title: "Error",
             description: data.message || "Something Went Wrong",
           });
           return;
         }
 
         notification.success({
-          message: "Success",
+          title: "Success",
           description: data.message || "Login SuccesFully",
         });
 
@@ -81,8 +81,15 @@ const Login = () => {
         setErrors({});
         navigate("/dashboard");
       } catch (error) {
+        if (error.response.status === 401) {
+          notification.error({
+            title: "Error",
+            description: error.response.data.message,
+          });
+          return;
+        }
         notification.error({
-          message: "Error",
+          title: "Error",
           description: "Internal Server Error",
         });
         console.error("Signin error:", error);
@@ -91,6 +98,7 @@ const Login = () => {
       }
     }
   };
+
   return (
     <>
       {loading ? (

@@ -53,3 +53,42 @@ export function logInValidation(formData) {
   const isvalid = Object.keys(errors).length === 0;
   return { errors, isvalid };
 }
+
+export function createProductValidation(formData) {
+  const errors = {};
+
+  if (!formData?.image) {
+    errors.image = "Image is Required";
+  }
+
+  if (!formData?.title) {
+    errors.title = "Title is Required";
+  } else if (formData?.title?.length < 3) {
+    errors.title = "Title must be at least 3 characters";
+  }
+
+  if (!formData?.description) {
+    errors.description = "Description is Required";
+  } else if (formData?.description?.length < 10) {
+    errors.description = "Description must be at least 10 characters";
+  }
+
+  if (!formData?.price) {
+    errors.price = "Price is Required";
+  } else if (formData?.price < 0) {
+    errors.price = "Price must be at least 0";
+  }
+
+  if (!formData?.stock) {
+    errors.stock = "Stock is Required";
+  } else if (formData?.stock < 0) {
+    errors.stock = "Stock must be at least 0";
+  }
+
+  if (!formData?.category) {
+    errors.category = "Category is Required";
+  }
+
+  const isvalid = Object.keys(errors).length === 0;
+  return { errors, isvalid };
+}

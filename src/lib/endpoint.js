@@ -3,6 +3,8 @@ const endPoint = {
   login: "api/login",
   logout: "api/logout",
   get_products: "api/get/products",
+  create_product: "api/create/product",
+  delete_product: "api/delete/product",
 };
 
 export default endPoint;

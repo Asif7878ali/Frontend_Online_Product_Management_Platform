@@ -13,9 +13,9 @@ const ViewProductModal = ({ openModal, selectedProduct, onCloseModal }) => {
       <div className="p-6 space-y-6">
         {/* Product Image */}
         <div className="w-full flex justify-center">
-          {selectedProduct?.image ? (
+          {selectedProduct?.image_url ? (
             <img
-              src={`${selectedProduct?.image}`}
+              src={`${selectedProduct?.image_url}`}
               alt={selectedProduct?.title}
               className="h-48 w-48 object-cover rounded-xl border shadow"
             />

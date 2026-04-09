@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import Icons from "@/utils/Icons";
 import ErrorsMessage from "../resuable_components/Errors";
+import Icons from "../../utills/Icons";
 
 const debounce = (func, delay) => {
   let timeoutId;

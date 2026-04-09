@@ -7,7 +7,7 @@ const TableProduct = ({ item, onViewClick, onEditClick, onDeleteClick }) => {
       <td className="px-6 py-4 font-medium text-brand-text whitespace-nowrap">
         <div className="flex items-center">
           <img
-            src={item?.image}
+            src={item?.image_url}
             alt={"property"}
             className="w-12 h-8 rounded-md object-cover"
           />

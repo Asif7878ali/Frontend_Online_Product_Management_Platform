@@ -63,14 +63,14 @@ const Register = () => {
 
         if (!data?.status) {
           notification.error({
-            message: "Error",
+            title: "Error",
             description: data.message || "Something Went Wrong",
           });
           return;
         }
 
         notification.success({
-          message: "Success",
+          title: "Success",
           description: data.message || "Register SuccesFully",
         });
 
@@ -84,7 +84,7 @@ const Register = () => {
         setErrors({});
       } catch (error) {
         notification.error({
-          message: "Error",
+          title: "Error",
           description: "Internal Server Error",
         });
         console.error("Signin error:", error);
