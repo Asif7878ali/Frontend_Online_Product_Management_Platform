@@ -113,7 +113,7 @@ const EditProductModal = ({ openModal, selectedProduct, onCloseModal }) => {
 
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const formData = new FormData();
       formData.append("id", form.id);

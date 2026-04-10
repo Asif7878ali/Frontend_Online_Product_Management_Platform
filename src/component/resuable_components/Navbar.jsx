@@ -13,14 +13,14 @@ const Navbar = () => {
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem("token");
-    const user = sessionStorage.getItem("user");
+    const userSting = sessionStorage.getItem("user");
 
     if (storedToken) {
       setToken(storedToken);
     }
 
-    if (user) {
-      setUser(JSON.parse(user));
+    if (userSting) {
+      setUser(JSON.parse(userSting));
     }
   }, []);
 
@@ -29,9 +29,20 @@ const Navbar = () => {
       {token ? (
         <div className="w-full bg-white shadow-md">
           <div className="flex items-center justify-between px-10 py-3">
-            <nav className="flex items-center">
-              <span className="text-neutral-500">Dashboard</span>
-            </nav>
+            {user?.role === "customer" ? (
+              <div className="flex items-center gap-2 cursor-pointer">
+                <div className="bg-rose-600 text-white hover:bg-rose-700 p-1.5 rounded-lg">
+                  <Icons.Checked className="w-5 h-5 text-white stroke-2" />
+                </div>
+                <span className="font-bold text-xl tracking-tight text-gray-900">
+                  Product<span className="textRose">MGMT</span>
+                </span>
+              </div>
+            ) : (
+              <nav className="flex items-center">
+                <span className="text-neutral-500">Dashboard</span>
+              </nav>
+            )}
 
             <div className="flex items-center gap-x-4">
               <div className="text-end">
@@ -54,7 +65,7 @@ const Navbar = () => {
                 <Icons.Checked className="w-5 h-5 text-white stroke-2" />
               </div>
               <span className="font-bold text-xl tracking-tight text-gray-900">
-                Product<span className="textRose">Management</span>
+                Product<span className="textRose">MGMT</span>
               </span>
             </div>
 

@@ -9,7 +9,7 @@ export const navigateByRole = (role, navigate) => {
       break;
 
     case "customer":
-      navigate("/productspurchasepage");
+      navigate("/explore/products");
       break;
 
     default:

@@ -111,7 +111,7 @@ const CreateProductModal = ({ openModal, onCloseModal }) => {
 
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const formData = new FormData();
       formData.append("title", form.title);
