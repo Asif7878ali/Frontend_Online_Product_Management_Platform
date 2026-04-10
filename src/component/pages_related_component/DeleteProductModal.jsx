@@ -22,7 +22,7 @@ const DeleteProductModal = ({ openModal, selectedProduct, onCloseModal }) => {
 
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const response = await axios.delete(
