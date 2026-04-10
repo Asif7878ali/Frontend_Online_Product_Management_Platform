@@ -9,6 +9,7 @@ import endPoint from "../../lib/endpoint";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import Password from "../form_components/Password";
+import { navigateByRole } from "../../lib/role_navigation";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -56,6 +57,7 @@ const Login = () => {
         );
 
         const { data } = response;
+        const role = data?.user?.role;
 
         if (!data?.status) {
           notification.error({
@@ -70,16 +72,16 @@ const Login = () => {
           description: data.message || "Login SuccesFully",
         });
 
-        // store data in local storage
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token);
-
+        // store data in session storage
+        sessionStorage.setItem("user", JSON.stringify(data.user));
+        sessionStorage.setItem("token", data.token);
+        debugger;
         setFormData({
           email: "",
           password: "",
         });
         setErrors({});
-        navigate("/dashboard");
+        navigateByRole(role, navigate);
       } catch (error) {
         if (error.response.status === 401) {
           notification.error({

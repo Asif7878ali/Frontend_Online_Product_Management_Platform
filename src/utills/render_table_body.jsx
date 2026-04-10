@@ -1,4 +1,6 @@
+import AdminTableProduct from "../component/table_rows/admin_table_product";
 import TableProduct from "../component/table_rows/table_product";
+import TableUserList from "../component/table_rows/table_user_list";
 
 function renderTableBody({
   key,
@@ -17,6 +19,12 @@ function renderTableBody({
           onDeleteClick={onDeleteClick}
         />
       );
+
+    case "admin_table_product":
+      return <AdminTableProduct item={item} />;
+
+    case "table_user_list":
+      return <TableUserList item={item} />;
 
     default:
       return (

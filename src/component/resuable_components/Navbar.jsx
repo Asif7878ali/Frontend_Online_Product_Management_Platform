@@ -12,8 +12,8 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
+    const storedToken = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user");
 
     if (storedToken) {
       setToken(storedToken);
@@ -35,8 +35,8 @@ const Navbar = () => {
 
             <div className="flex items-center gap-x-4">
               <div className="text-end">
-                <p className="text-gray-500 text-sm font-normal leading-none">
-                  Hello User
+                <p className="text-gray-500 text-sm font-normal capitalize leading-none">
+                  Hello {user?.role}
                 </p>
                 <h2 className="text-zinc-800 text-base font-medium capitalize leading-none mt-1">
                   {user?.name}
