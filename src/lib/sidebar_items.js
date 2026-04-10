@@ -8,8 +8,8 @@ const getSidebarItems = (role) => {
 
   if (role === "vendor") {
     return [
-      { text: "Products", key: "products" },
-      { text: "Orders", key: "orders" },
+      { text: "Products List", key: "products_vendor" },
+      { text: "Orders list", key: "orders" },
     ];
   }
 

@@ -3,7 +3,6 @@ import Home from "./pages/home/Home";
 import Auth from "./pages/auth/Auth";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./component/auth/ProtectedRoute";
-import DashboardLayout from "./component/layouts/DashboardLayout";
 import AdminDashboard from "./pages/admin_dashboard/Admin_Dashboard";
 
 function App() {
@@ -24,12 +23,10 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <DashboardLayout />
+              <Dashboard />
             </ProtectedRoute>
           }
-        >
-          <Route index element={<Dashboard />} />
-        </Route>
+        ></Route>
       </Routes>
     </Router>
   );
