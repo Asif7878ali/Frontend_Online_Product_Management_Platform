@@ -26,20 +26,19 @@ const OrderSummary = () => {
   if (!product) return null;
 
   const subtotal = product.price * quantity;
-  const shipping = 50;
-  const total = subtotal + shipping;
+  const total = subtotal;
 
   const handlePlaceOrder = async () => {
     try {
       setIsPlacingOrder(true);
       const token = sessionStorage.getItem("token");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
 
       const response = await axios.post(
         `${configCenter.urls.base}${endPoint.place_order}`,
         {
           product_id: product.id,
           quantity: quantity,
-          total_price: total,
         },
         {
           headers: {
@@ -158,14 +157,6 @@ const OrderSummary = () => {
                     <span className="text-zinc-500 font-medium">Subtotal</span>
                     <span className="text-zinc-900 font-bold">
                       ₹{formatIndianAmount(subtotal)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-zinc-500 font-medium">
-                      Shipping Charge
-                    </span>
-                    <span className="text-zinc-900 font-bold">
-                      ₹{formatIndianAmount(shipping)}
                     </span>
                   </div>
                   <div className="pt-6 border-t border-zinc-100 flex justify-between items-center">

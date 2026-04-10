@@ -75,7 +75,7 @@ const Login = () => {
         // store data in session storage
         sessionStorage.setItem("user", JSON.stringify(data.user));
         sessionStorage.setItem("token", data.token);
-        debugger;
+
         setFormData({
           email: "",
           password: "",
