@@ -37,7 +37,7 @@ const SideBar = ({ activeTab, setActiveTab, role }) => {
 
       if (response?.data?.status) {
         notification.success({
-          message: "Success",
+          title: "Success",
           description: response?.data?.message || "Logout Successfully",
         });
 
@@ -47,7 +47,7 @@ const SideBar = ({ activeTab, setActiveTab, role }) => {
       }
     } catch (error) {
       notification.error({
-        message: "Error",
+        title: "Error",
         description: "Internal Server Error",
       });
     } finally {

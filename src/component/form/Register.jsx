@@ -9,17 +9,23 @@ import axios from "axios";
 import configCenter from "../../lib/config";
 import { notification } from "antd";
 import Loader from "../resuable_components/Loader";
+import Dropdown from "../form_components/Dropdown";
 
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    role: "",
     c_password: "",
     checked: false,
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const roleOptions = [
+    { value: "vendor", label: "Vendor" },
+    { value: "customer", label: "Customer" },
+  ];
 
   function handleChange(e) {
     const { name, type, checked, value } = e.target;
@@ -47,6 +53,7 @@ const Register = () => {
       name: formData.name,
       email: formData.email,
       password: formData.password,
+      role: formData.role,
     };
 
     if (isvalid == true) {
@@ -79,6 +86,7 @@ const Register = () => {
           email: "",
           password: "",
           c_password: "",
+          role: "",
           checked: false,
         });
         setErrors({});
@@ -100,6 +108,18 @@ const Register = () => {
         <Loader />
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div id="name">
+            <Dropdown
+              name="role"
+              options={roleOptions}
+              optionLabelKey="label"
+              optionValueKey="value"
+              onChange={handleChange}
+              classNameInput="bg-transparent"
+              placeholder="Select Role"
+              error={errors?.role}
+            />
+          </div>
           <div id="name">
             <Input
               type="text"

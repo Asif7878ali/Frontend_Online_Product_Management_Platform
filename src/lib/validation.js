@@ -2,6 +2,10 @@ export function signInValidation(formData) {
   const errors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  if (!formData?.role) {
+    errors.role = "Role is Required";
+  }
+
   if (!formData?.name) {
     errors.name = "Name is Required";
   } else if (formData?.name?.length < 3) {
