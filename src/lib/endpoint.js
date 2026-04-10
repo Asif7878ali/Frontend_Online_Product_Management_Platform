@@ -10,7 +10,10 @@ const endPoint = {
   create_product: "api/create/product",
   update_product: "api/update/product",
   delete_product: "api/delete/product",
+
+  // orders api
   place_order: "api/place/order",
+  get_orders: "api/get/orders",
 };
 
 export default endPoint;

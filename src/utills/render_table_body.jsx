@@ -1,4 +1,5 @@
 import AdminTableProduct from "../component/table_rows/admin_table_product";
+import TableOrder from "../component/table_rows/table_order";
 import TableProduct from "../component/table_rows/table_product";
 import TableUserList from "../component/table_rows/table_user_list";
 
@@ -25,6 +26,9 @@ function renderTableBody({
 
     case "table_user_list":
       return <TableUserList item={item} />;
+
+    case "table_order":
+      return <TableOrder item={item} />;
 
     default:
       return (

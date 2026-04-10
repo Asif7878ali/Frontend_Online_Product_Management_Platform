@@ -30,4 +30,17 @@ export const Column = {
     key: "table_user_list",
     columns: ["Name", "Email", "Role", "Verify", "Created_at", "Updated_at"],
   },
+
+  table_order: {
+    key: "table_order",
+    columns: [
+      "Order_Id",
+      "Product",
+      "Customer",
+      "Quantity",
+      "Price",
+      "Total Amount",
+      "Created_at",
+    ],
+  },
 };
