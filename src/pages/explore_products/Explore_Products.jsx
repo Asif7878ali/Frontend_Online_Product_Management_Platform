@@ -53,7 +53,7 @@ const ExploreProducts = () => {
       <div className="min-h-screen bg-[#FDFDFF]">
         <section
           id="HeroSection"
-          className="relative pt-20 pb-16 px-6 overflow-hidden"
+          className="relative py-10 px-6 overflow-hidden"
         >
           <div className="max-w-7xl mx-auto text-center relative z-10">
             <h1 className="text-5xl md:text-7xl font-black text-zinc-900 tracking-tight mb-6">
@@ -83,15 +83,17 @@ const ExploreProducts = () => {
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/5 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2" />
         </section>
 
-        <div id="ContentSection" className="max-w-7xl mx-auto px-6 pb-24">
-          {/* Filters Bar */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+        <div id="ContentSection" className="max-w-7xl mx-auto px-6 py-10">
+          <div
+            id="FiltersBar"
+            className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6"
+          >
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-6 py-2 rounded-2xl text-sm font-bold transition-all duration-300 whitespace-nowrap ${
+                  className={`px-6 py-2 cursor-pointer rounded-2xl text-sm font-bold transition-all duration-300 whitespace-nowrap ${
                     activeCategory === cat
                       ? "bg-rose-600 text-white shadow-lg shadow-rose-200"
                       : "bg-white text-zinc-500 hover:bg-zinc-50 border border-zinc-100"
@@ -103,7 +105,6 @@ const ExploreProducts = () => {
             </div>
           </div>
 
-          {/* Product Grid */}
           {isLoading ? (
             <div className="h-[400px] flex items-center justify-center">
               <Loader />

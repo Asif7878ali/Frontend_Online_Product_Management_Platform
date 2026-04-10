@@ -1,7 +1,9 @@
 import Icons from "../../../utills/Icons";
 import { Button } from "../../form_components/Buttons";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
   const { id, title, description, price, image_url, category, stock } = product;
 
   return (
@@ -59,9 +61,7 @@ const ProductCard = ({ product }) => {
           <Button
             variant="primary"
             className="rounded-2xl! px-6! py-3! shadow-rose-200 group-hover:shadow-rose-300 flex items-center gap-2 group/btn"
-            onClick={() =>
-              alert(`Purchasing ${title}... This feature is coming soon!`)
-            }
+            onClick={() => navigate("/order/summary", { state: { product } })}
           >
             <span className="text-sm font-bold">Buy Now</span>
             <Icons.CheronRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />

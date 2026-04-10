@@ -77,7 +77,7 @@ const UserTable = () => {
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
         // filter options
-        filterOptions={["All", "Vendors", "Customers"]}
+        filterOptions={["All", "vendor", "customer"]}
         activeFilter={activeFilter}
         onFilterChange={handleFilterChange}
       />
