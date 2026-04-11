@@ -138,7 +138,7 @@ const TableViewer = ({
       </div>
 
       {/* Table Clomun and data */}
-      <div className="overflow-x-auto relative min-h-[400px]">
+      <div className="overflow-x-auto relative min-h-100">
         {isLoading ? (
           <div className="absolute inset-0 bg-white bg-opacity-75 z-10">
             <TableSkeleton />

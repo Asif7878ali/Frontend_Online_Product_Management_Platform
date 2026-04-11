@@ -80,7 +80,7 @@ const OrderSummary = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
             <div id="ProductDetailsSection" className="lg:col-span-3 space-y-8">
-              <div className="bg-white rounded-[32px] p-6 shadow-2xl shadow-zinc-200/50 border border-zinc-100 relative overflow-hidden group">
+              <div className="bg-white rounded-4xl p-6 shadow-2xl shadow-zinc-200/50 border border-zinc-100 relative overflow-hidden group">
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="w-full md:w-40 aspect-square rounded-2xl overflow-hidden bg-zinc-50 border border-zinc-100">
                     <img
@@ -170,7 +170,7 @@ const OrderSummary = () => {
                 </div>
 
                 <Button
-                  className={`w-full py-5 rounded-[24px] text-lg font-black flex items-center justify-center gap-3 shadow-2xl transition-all duration-300 ${
+                  className={`w-full py-5 rounded-3xl text-lg font-black flex items-center justify-center gap-3 shadow-2xl transition-all duration-300 ${
                     orderStatus === "success"
                       ? "bg-emerald-500 hover:bg-emerald-600"
                       : "bg-rose-600 hover:bg-rose-700 shadow-rose-200"
