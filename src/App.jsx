@@ -2,10 +2,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Auth from "./pages/auth/Auth";
 import Dashboard from "./pages/dashboard/Dashboard";
-import ProtectedRoute from "./features/auth/components/ProtectedRoute";
-import AdminDashboard from "./pages/admin-dashboard/AdminDashboard";
-import ExploreProducts from "./pages/explore-products/ExploreProducts";
-import OrderSummary from "./pages/order-summary/OrderSummary";
+import ProtectedRoute from "./component/auth/ProtectedRoute";
+import AdminDashboard from "./pages/admin_dashboard/Admin_Dashboard";
+import ExploreProducts from "./pages/explore_products/Explore_Products";
+import OrderSummary from "./pages/order_summary/Order_Summary";
 
 function App() {
   return (

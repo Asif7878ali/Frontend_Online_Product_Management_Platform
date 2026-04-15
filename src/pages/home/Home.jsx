@@ -1,5 +1,5 @@
-import MainLayout from "../../components/layouts/MainLayout";
-import Icons from "../../utils/Icons";
+import MainLayout from "../../component/layouts/MainLayout";
+import Icons from "../../utills/Icons";
 
 const Home = () => {
   return (
