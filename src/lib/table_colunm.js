@@ -1,6 +1,6 @@
 export const Column = {
-  table_product: {
-    key: "table_product",
+  TableProduct: {
+    key: "TableProduct",
     columns: [
       "Image",
       "Description",
@@ -13,8 +13,8 @@ export const Column = {
     ],
   },
 
-  admin_table_product: {
-    key: "admin_table_product",
+  admin_TableProduct: {
+    key: "admin_TableProduct",
     columns: [
       "Image",
       "Description",
@@ -26,13 +26,13 @@ export const Column = {
     ],
   },
 
-  table_user_list: {
-    key: "table_user_list",
+  TableUser_list: {
+    key: "TableUser_list",
     columns: ["Name", "Email", "Role", "Verify", "Created_at", "Updated_at"],
   },
 
-  table_order: {
-    key: "table_order",
+  TableOrder: {
+    key: "TableOrder",
     columns: [
       "Order_Id",
       "Product",

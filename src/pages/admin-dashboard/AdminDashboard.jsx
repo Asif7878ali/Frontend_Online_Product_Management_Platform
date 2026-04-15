@@ -1,16 +1,16 @@
 import { useState } from "react";
 import SideBar from "../../components/ui/Sidebar";
 import Navbar from "../../components/ui/Navbar";
-import VendorProductTable from "../../components/tables/Vendor_ProductTable";
-import OrderTable from "../../features/orders/components/OrderTable";
+import UserTable from "../../components/tables/UserTable";
+import ProductTable from "../../components/tables/ProductTable";
 
-const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("products_vendor");
+const AdminDashboard = () => {
+  const [activeTab, setActiveTab] = useState("users");
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
   return (
-    <div id="DashboardPage" className="flex flex-row h-screen">
+    <div id="AdminDashboardPage" className="flex flex-row h-screen">
       <SideBar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -19,12 +19,12 @@ const Dashboard = () => {
       <div className="flex flex-col w-full">
         <Navbar />
         <div className="h-full overflow-y-scroll">
-          {activeTab === "products_vendor" && <VendorProductTable />}
-          {activeTab === "orders" && <OrderTable />}
+          {activeTab === "users" && <UserTable />}
+          {activeTab === "products" && <ProductTable />}
         </div>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;
